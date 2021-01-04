@@ -7,13 +7,13 @@ const list = {
             id: Date.now(),
         }
         this.archive.push(newTask);
-        this.preservationInLocalStorage();
+        this.recordInLocalStorage();
     },
     deleteTask(id) {
         for (let i = 0; i < this.archive.length; i++) {
             if (id === this.archive[i].id) {
                 this.archive.splice(i, 1);
-                this.preservationInLocalStorage();
+                this.recordInLocalStorage();
                 return this.archive[i];
             }
         }
@@ -22,7 +22,7 @@ const list = {
         for (let i = 0; i < this.archive.length; i++) {
             if (id === this.archive[i].id) {
                 this.archive[i].text = text;
-                this.preservationInLocalStorage();
+                this.recordInLocalStorage();
                 return this.archive[i];
             }
         }
@@ -31,7 +31,7 @@ const list = {
         for (let i = 0; i < this.archive.length; i++) {
             if (id === this.archive[i].id) {
                 this.archive[i].condition = !this.archive[i].condition;
-                this.preservationInLocalStorage();
+                this.recordInLocalStorage();
                 return this.archive[i];
             }
         }
@@ -39,8 +39,14 @@ const list = {
     get archive() {
         return this._archive;
     },
-    preservationInLocalStorage() {
+    recordInLocalStorage() {
         localStorage.setItem("archive", JSON.stringify(this.archive))
+    },
+    getLocalStorageContent() {
+        if (JSON.parse(localStorage.getItem("archive"))) {
+            this.archive= JSON.parse(localStorage.getItem("archive"));
+        }
+        return this.archive;
     }
 }
 
@@ -49,18 +55,11 @@ Object.defineProperties(list, {
     addTask: {configurable: false,},
     deleteTask: {configurable: false,},
     updateTask: {configurable: false,},
-    conditionTask: {configurable: false,},
+    conditionTask: { configurable: false,},
+    recordInLocalStorage: { configurable: false,} ,
+    getLocalStorageContent: { configurable: false,},
 })
 
 Object.freeze(list);
 
-list.addTask('Сходить на занятие');
-list.addTask('Сходить в магазин');
-list.addTask('Построить дом');
-list.addTask('Посадить дерево');
-
-
-if (JSON.parse(localStorage.getItem("archive"))) {
-            const currentTasks = JSON.parse(localStorage.getItem("archive"));
-            console.log(currentTasks)
-}
+list.getLocalStorageContent();
