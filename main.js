@@ -4,43 +4,38 @@ const list = {
         const newTask = {
             text: text,
             condition: false, 
-            id: Date.now(),
+            id: 12345,
         }
         this.archive.push(newTask);
         this.recordInLocalStorage();
     },
     deleteTask(id) {
-        for (let i = 0; i < this.archive.length; i++) {
-            if (id === this.archive[i].id) {
-                this.archive.splice(i, 1);
-                this.recordInLocalStorage();
-                return this.archive[i];
-            }
-        }
+        const index = this.getId(id);
+        this.archive.splice(index, 1);
+        this.recordInLocalStorage();
+
     },
     updateTask(text, id) { 
-        for (let i = 0; i < this.archive.length; i++) {
-            if (id === this.archive[i].id) {
-                this.archive[i].text = text;
-                this.recordInLocalStorage();
-                return this.archive[i];
-            }
-        }
+        const index = this.getId(id);
+        
+        this.archive[index].text = text;
+        this.recordInLocalStorage();
+
+        return this.archive[index];
     },
     conditionTask(id) {
-        for (let i = 0; i < this.archive.length; i++) {
-            if (id === this.archive[i].id) {
-                this.archive[i].condition = !this.archive[i].condition;
-                this.recordInLocalStorage();
-                return this.archive[i];
-            }
-        }
+        const index = this.getId(id);
+        this.archive[index].condition = true;
+        this.recordInLocalStorage();
+    },
+    getId(id) {
+        return this.archive.findIndex((item) => item.id === id);
     },
     get archive() {
         return this._archive;
     },
     recordInLocalStorage() {
-        localStorage.setItem("archive", JSON.stringify(this.archive))
+        localStorage.setItem("archive", JSON.stringify(this.archive));
     },
     getLocalStorageContent() {
         if (JSON.parse(localStorage.getItem("archive"))) {
