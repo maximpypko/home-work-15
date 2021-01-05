@@ -50,9 +50,10 @@ Object.defineProperties(list, {
     addTask: {configurable: false,},
     deleteTask: {configurable: false,},
     updateTask: {configurable: false,},
-    conditionTask: { configurable: false,},
-    recordInLocalStorage: { configurable: false,} ,
-    getLocalStorageContent: { configurable: false,},
+    conditionTask: {configurable: false, },
+    getId: {configurable: false,},
+    recordInLocalStorage: {configurable: false,} ,
+    getLocalStorageContent: {configurable: false,},
 })
 
 Object.freeze(list);
