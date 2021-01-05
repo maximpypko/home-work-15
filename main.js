@@ -4,7 +4,7 @@ const list = {
         const newTask = {
             text: text,
             condition: false, 
-            id: 12345,
+            id: Date.now(),
         }
         this.archive.push(newTask);
         this.recordInLocalStorage();
